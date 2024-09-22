@@ -1,0 +1,36 @@
+services:
+    database:
+        image: postgres:16.4
+        restart: always
+        environment:
+            POSTGRES_PORT: ${DB_PORT}
+            POSTGRES_USER: ${DB_USERNAME}
+            POSTGRES_PASSWORD: ${DB_PASSWORD}
+            POSTGRES_DB: ${DB_DATABASE}
+            TZ: ${APP_TIMEZONE}
+        volumes:
+            - postgresql-data:/var/lib/postgresql/data:rw
+
+    app:
+        build:
+            context: ./.docker/app
+            dockerfile: Dockerfile
+        depends_on:
+            - database
+        volumes:
+            - ./.docker/app/php.ini:/usr/local/etc/php/php.ini:ro
+            - ./:/var/www/html/:rw
+
+    web:
+        image: nginx:1.26.2
+        ports:
+            - 8080:80
+        depends_on:
+            - app
+        volumes:
+            - ./.docker/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+            - ./.docker/nginx/conf.d/:/etc/nginx/conf.d/:ro
+            - ./:/var/www/html/:ro
+
+volumes:
+    postgresql-data:
