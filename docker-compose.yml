@@ -19,6 +19,7 @@ services:
             - database
         volumes:
             - ./.docker/app/php.ini:/usr/local/etc/php/php.ini:ro
+            - ./.docker/app/.profile:/root/.profile:ro
             - ./:/var/www/html/:rw
 
     web:
