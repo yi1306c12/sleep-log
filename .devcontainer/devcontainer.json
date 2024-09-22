@@ -1,0 +1,17 @@
+{
+    "name": "my-laravel",
+    "dockerComposeFile": ["../docker-compose.yml"],
+    "service": "app",
+    "workspaceFolder": "/var/www/html/",
+    "remoteUser": "root",
+    "postCreateCommand": "/bin/sh ./.devcontainer/postCreateCommand.sh",
+    "shutdownAction": "stopCompose",
+    "customizations": {
+        "vscode": {
+            "settings": [
+            ],
+            "extensions": [
+            ]
+        }
+    }
+}
