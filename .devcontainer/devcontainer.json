@@ -8,9 +8,11 @@
     "shutdownAction": "stopCompose",
     "customizations": {
         "vscode": {
-            "settings": [
-            ],
+            "settings": {
+                "intelephense.environment.phpVersion": "8.3"
+            },
             "extensions": [
+                "bmewburn.vscode-intelephense-client"
             ]
         }
     }
