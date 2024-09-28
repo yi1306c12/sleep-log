@@ -1,0 +1,29 @@
+#!/bin/bash
+
+# PHPファイルが変更された場合はPHPStanとPHPUnitを実行
+CHANGED_PHP_FILES=$(git diff --staged --name-only | grep \\.php)
+if [ -z "$CHANGED_PHP_FILES" ]; then
+    echo "No .php is changed. Skip PHPStan & PHPUnit."
+else
+    echo "Some .php have been changed."
+
+    echo "Run PHPStan."
+    vendor/bin/phpstan analyse --memory-limit 1G
+    if [ $? -ne 0 ]; then
+        echo "PHPStan is not passed. Commit aborted."
+        exit 1;
+    else
+        echo "PHPStan is passed."
+    fi
+
+    echo "Run PHPUnit."
+    php artisan test
+    if [$? -ne 0 ]; then
+        echo "PHPUnit is not passed. Commit aborted."
+        exit 1;
+    else
+        echo "PHPUnit is passed."
+    fi
+fi
+
+exit 0;
