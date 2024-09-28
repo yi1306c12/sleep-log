@@ -1,0 +1,21 @@
+name: phpstan
+
+on:
+  push:
+    branches:
+      - 11.x
+  pull_request:
+    branches:
+      - 11.x
+
+jobs:
+  phpstan:
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+      - uses: php-actions/composer@v6
+      - uses: php-actions/phpstan@v3
+        with:
+          configuration: phpstan.neon
+          memory_limit: 1G
